@@ -56,7 +56,7 @@ export function toggleOptionsListOnSearch(e) {
       return;
     }
     this.closeOptionsList();
-  } else if (!this.props.isDisabled && !this.state.optionsListVisible) {
+  } else if ((!this.props.isDisabled || (this.props.multiSelect && !_.isEmpty(this.props.value))) && !this.state.optionsListVisible) {
     this.openOptionsList();
   }
 }
