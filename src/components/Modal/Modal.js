@@ -43,7 +43,10 @@ const DialogBackground = styled.div`
 `;
 
 const DialogBase = styled.div`
-  width: 336px;
+  width: ${(props) => {
+    if (props.width) return `${props.width}px`;
+    return '336px';
+  }};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -137,12 +140,13 @@ class Modal extends React.Component {
     const {
       center,
       children,
+      width,
       ...props
     } = this.props;
     return (
       <DialogWrapper ref="message_dialog_wrapper" center={center} {...props}>
         <DialogBackground ref="message_dialog_background" />
-        <DialogBase ref="message_dialog_component" center={center}>
+        <DialogBase ref="message_dialog_component" center={center} width={width}>
             {children}
         </DialogBase>
       </DialogWrapper>
