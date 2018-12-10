@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
@@ -43,10 +43,7 @@ const DialogBackground = styled.div`
 `;
 
 const DialogBase = styled.div`
-  width: ${(props) => {
-    if (props.width) return `${props.width}px`;
-    return '336px';
-  }};
+  width: ${props => `${props.theme.width}px`};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -140,23 +137,32 @@ class Modal extends React.Component {
     const {
       center,
       children,
-      width,
+      theme,
       ...props
     } = this.props;
     return (
       <DialogWrapper ref="message_dialog_wrapper" center={center} {...props}>
         <DialogBackground ref="message_dialog_background" />
-        <DialogBase ref="message_dialog_component" center={center} width={width}>
+        <ThemeProvider theme={theme}>
+          <DialogBase ref="message_dialog_component" center={center}>
             {children}
-        </DialogBase>
+          </DialogBase>
+        </ThemeProvider>
       </DialogWrapper>
     );
   }
 }
 
+Modal.defaultProps = {
+  theme: {
+    width: 336
+  }
+}
+
 Modal.propTypes = {
     center: PropTypes.bool,
-    onStoryBook: PropTypes.bool
+    onStoryBook: PropTypes.bool,
+    theme: PropTypes.object
 }
 
 
